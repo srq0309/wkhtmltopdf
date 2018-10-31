@@ -82,10 +82,7 @@ int main()
     wkhtmltopdf_set_global_setting(wk_global_settings, "WaterMarkA.width", "1.5");
     wkhtmltopdf_set_global_setting(wk_global_settings, "WaterMarkA.height", "1.0");
     // 水印颜色
-    wkhtmltopdf_set_global_setting(wk_global_settings, "WaterMarkA.color_r", "0");
-    wkhtmltopdf_set_global_setting(wk_global_settings, "WaterMarkA.color_g", "160");
-    wkhtmltopdf_set_global_setting(wk_global_settings, "WaterMarkA.color_b", "230");
-    wkhtmltopdf_set_global_setting(wk_global_settings, "WaterMarkA.color_a", "80");    // 不透明度
+    wkhtmltopdf_set_global_setting(wk_global_settings, "WaterMarkA.color", "(0,160,230,80)");
     // 字体
     wkhtmltopdf_set_global_setting(wk_global_settings, "WaterMarkA.font_family", "Microsoft YaHei");
     wkhtmltopdf_set_global_setting(wk_global_settings, "WaterMarkA.font_size", "36");

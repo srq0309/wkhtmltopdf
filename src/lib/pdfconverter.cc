@@ -598,8 +598,10 @@ void PdfConverterPrivate::findLinks(QWebFrame * frame, QVector<QPair<QWebElement
     }
 }
 
+
 /*!
- * @brief 添加水印
+ * @brief   添加水印
+ * @param	mark 水印配置
  */
 void PdfConverterPrivate::watermark(PdfConverterPrivate::WarterMarkConfig& mark)
 {
@@ -617,8 +619,7 @@ void PdfConverterPrivate::_watermark_pre(PdfConverterPrivate::WarterMarkConfig& 
 {
     if (markSet.use) {
         mark.use = true;
-        mark.pen.setColor(QColor(markSet.color_r, markSet.color_g,
-            markSet.color_b, markSet.color_a));
+        mark.pen.setColor(markSet.color);
 
         mark.font.setPointSize(markSet.font_size);
         mark.font.setItalic(true);

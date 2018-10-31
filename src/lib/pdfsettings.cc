@@ -80,6 +80,24 @@ struct DLL_LOCAL ReflectImpl<QPrinter::ColorMode> : public ReflectSimple
 };
 
 template<>
+struct DLL_LOCAL ReflectImpl<QRect> : public ReflectSimple
+{
+    QRect& m;
+    ReflectImpl(QRect& _) : m(_) {}
+    QString get() { return QRectToStr(m); }
+    void set(const QString& value, bool *ok) { m = strToQRect(value.toUtf8().constData(), ok); }
+};
+
+template<>
+struct DLL_LOCAL ReflectImpl<QColor> : public ReflectSimple
+{
+    QColor& m;
+    ReflectImpl(QColor& _) : m(_) {}
+    QString get() { return QColorToStr(m); }
+    void set(const QString& value, bool *ok) { m = strToQColor(value.toUtf8().constData(), ok); }
+};
+
+template<>
 struct DLL_LOCAL ReflectImpl<Margin> : public ReflectClass
 {
     ReflectImpl(Margin & c)
@@ -127,10 +145,7 @@ struct DLL_LOCAL ReflectImpl<CustomWaterMark> : public ReflectClass
         WKHTMLTOPDF_REFLECT(top);
         WKHTMLTOPDF_REFLECT(width);
         WKHTMLTOPDF_REFLECT(height);
-        WKHTMLTOPDF_REFLECT(color_r);
-        WKHTMLTOPDF_REFLECT(color_g);
-        WKHTMLTOPDF_REFLECT(color_b);
-        WKHTMLTOPDF_REFLECT(color_a);
+        WKHTMLTOPDF_REFLECT(color);
         WKHTMLTOPDF_REFLECT(font_size);
         WKHTMLTOPDF_REFLECT(font_family);
         WKHTMLTOPDF_REFLECT(text);
@@ -401,6 +416,50 @@ QString colorModeToStr(QPrinter::ColorMode o)
     return QString();
 }
 
+QRect strToQRect(const char* s, bool* ok)
+{
+    // TODO 定义转换方法，长宽以百分比为参数
+    return QRect();
+}
+
+QString QRectToStr(QRect o)
+{
+    return QString();
+}
+
+QColor strToQColor(const char* s, bool* ok)
+{
+    // (r,g,b,a)
+    QColor ret;
+
+    QString tmp = QString::fromUtf8(s);
+    tmp.remove(QRegExp("\\s"));
+    if (tmp.isEmpty() ||
+        (tmp[0] != '(') ||
+        (tmp[tmp.size() - 1] != ')')) {
+        return ret;
+    }
+    tmp = tmp.mid(1, tmp.size() - 2);
+    auto li = tmp.split(',');
+    if (li.size() != 4) {
+        return ret;
+    }
+    ret.setRed(li[0].toInt());
+    ret.setGreen(li[1].toInt());
+    ret.setBlue(li[2].toInt());
+    ret.setAlpha(li[3].toInt());
+
+    return ret;
+}
+
+QString QColorToStr(QColor o)
+{
+    char buff[64];
+    snprintf(buff, sizeof(buff), "(%d,%d,%d,%d)",
+        o.red(), o.green(), o.blue(), o.alpha());
+    return QString(buff);
+}
+
 Size::Size() :
     pageSize(QPrinter::A4),
     height(UnitReal(-1, QPrinter::Millimeter)),
@@ -432,7 +491,7 @@ CustomWaterMark::CustomWaterMark() :
     use(false),
     rotate(0.0),
     left(0.0), top(0.0), width(0.0), height(0.0),
-    color_r(0), color_g(0), color_b(0), color_a(0),
+    color(0, 0, 0, 255),
     font_size(24),
     font_family("Microsoft YaHei")
 {

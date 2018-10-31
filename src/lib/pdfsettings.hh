@@ -23,12 +23,14 @@
 
 #include <QNetworkProxy>
 #include <QPrinter>
+#include <QColor>
 #include <QString>
 #include <logging.hh>
 #include <loadsettings.hh>
 #include <websettings.hh>
 
 #include <dllbegin.inc>
+
 namespace wkhtmltopdf
 {
 namespace settings
@@ -94,7 +96,7 @@ struct DLL_PUBLIC CustomWaterMark
     float left, top, width, height;
 
     // 水印颜色
-    int color_r, color_g, color_b, color_a;
+    QColor color;
 
     // 字号大小
     int font_size;
@@ -261,6 +263,12 @@ DLL_PUBLIC QString printerModeToStr(QPrinter::PrinterMode o);
 
 DLL_PUBLIC QPrinter::ColorMode strToColorMode(const char * s, bool * ok = 0);
 DLL_PUBLIC QString colorModeToStr(QPrinter::ColorMode o);
+
+DLL_PUBLIC QRect strToQRect(const char *s, bool *ok = 0);
+DLL_PUBLIC QString QRectToStr(QRect o);
+
+DLL_PUBLIC QColor strToQColor(const char *s, bool * ok = 0);
+DLL_PUBLIC QString QColorToStr(QColor o);
 
 }
 
