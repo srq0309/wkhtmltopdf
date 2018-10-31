@@ -615,7 +615,7 @@ void PdfConverterPrivate::watermark(PdfConverterPrivate::WarterMarkConfig& mark)
     }
 }
 
-void PdfConverterPrivate::_watermark_pre(PdfConverterPrivate::WarterMarkConfig& mark, CustomWaterMark& markSet)
+void PdfConverterPrivate::_watermark_pre(PdfConverterPrivate::WarterMarkConfig& mark, CustomWaterMarkText& markSet)
 {
     if (markSet.use) {
         mark.use = true;
@@ -637,10 +637,10 @@ void PdfConverterPrivate::_watermark_pre(PdfConverterPrivate::WarterMarkConfig& 
             mark.text.append(lines.last());
         }
 
-        mark.rect.setLeft(markSet.left * printer->width());
-        mark.rect.setTop(markSet.top * printer->height());
-        mark.rect.setWidth(markSet.width * printer->width());
-        mark.rect.setHeight(markSet.height * printer->height());
+        mark.rect.setLeft(markSet.rect.left * printer->width());
+        mark.rect.setTop(markSet.rect.top * printer->height());
+        mark.rect.setWidth(markSet.rect.width * printer->width());
+        mark.rect.setHeight(markSet.rect.height * printer->height());
     } else {
         mark.use = false;
     }

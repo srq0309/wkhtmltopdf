@@ -77,12 +77,9 @@ int main()
     // 坐标系旋转
     wkhtmltopdf_set_global_setting(wk_global_settings, "WaterMarkA.rotate", "-45");
     // 文字区域
-    wkhtmltopdf_set_global_setting(wk_global_settings, "WaterMarkA.left", "-0.9");
-    wkhtmltopdf_set_global_setting(wk_global_settings, "WaterMarkA.top", "0.0");
-    wkhtmltopdf_set_global_setting(wk_global_settings, "WaterMarkA.width", "1.5");
-    wkhtmltopdf_set_global_setting(wk_global_settings, "WaterMarkA.height", "1.0");
+    wkhtmltopdf_set_global_setting(wk_global_settings, "WaterMarkA.rect", "(-0.9, 0.0, 1.5, 1.0)");
     // 水印颜色
-    wkhtmltopdf_set_global_setting(wk_global_settings, "WaterMarkA.color", "(0,160,230,80)");
+    wkhtmltopdf_set_global_setting(wk_global_settings, "WaterMarkA.color", "(0, 160, 230, 80)");
     // 字体
     wkhtmltopdf_set_global_setting(wk_global_settings, "WaterMarkA.font_family", "Microsoft YaHei");
     wkhtmltopdf_set_global_setting(wk_global_settings, "WaterMarkA.font_size", "36");

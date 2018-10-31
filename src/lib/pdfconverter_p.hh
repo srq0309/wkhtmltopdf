@@ -181,7 +181,7 @@ private:
     Outline * outline;
     void findLinks(QWebFrame * frame, QVector<QPair<QWebElement, QString> > & local, QVector<QPair<QWebElement, QString> > & external, QHash<QString, QWebElement> & anchors);
     void watermark(PdfConverterPrivate::WarterMarkConfig& mark);
-    void _watermark_pre(PdfConverterPrivate::WarterMarkConfig& mark, settings::CustomWaterMark& set);
+    void _watermark_pre(PdfConverterPrivate::WarterMarkConfig& mark, settings::CustomWaterMarkText& set);
     void watermark_pre();
     void endPage(PageObject & object, bool hasHeaderFooter, int objectPage, int pageNumber);
     void fillParms(QHash<QString, QString> & parms, int page, const PageObject & object);

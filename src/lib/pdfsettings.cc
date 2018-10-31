@@ -80,12 +80,12 @@ struct DLL_LOCAL ReflectImpl<QPrinter::ColorMode> : public ReflectSimple
 };
 
 template<>
-struct DLL_LOCAL ReflectImpl<QRect> : public ReflectSimple
+struct DLL_LOCAL ReflectImpl<MarkRect> : public ReflectSimple
 {
-    QRect& m;
-    ReflectImpl(QRect& _) : m(_) {}
-    QString get() { return QRectToStr(m); }
-    void set(const QString& value, bool *ok) { m = strToQRect(value.toUtf8().constData(), ok); }
+    MarkRect& m;
+    ReflectImpl(MarkRect& _) : m(_) {}
+    QString get() { return rectToStr(m); }
+    void set(const QString& value, bool *ok) { m = strToRect(value.toUtf8().constData(), ok); }
 };
 
 template<>
@@ -135,16 +135,13 @@ struct DLL_LOCAL ReflectImpl<TableOfContent> : public ReflectClass
 };
 
 template<>
-struct DLL_LOCAL ReflectImpl<CustomWaterMark> : public ReflectClass
+struct DLL_LOCAL ReflectImpl<CustomWaterMarkText> : public ReflectClass
 {
-    ReflectImpl(CustomWaterMark & c)
+    ReflectImpl(CustomWaterMarkText & c)
     {
         WKHTMLTOPDF_REFLECT(use);
         WKHTMLTOPDF_REFLECT(rotate);
-        WKHTMLTOPDF_REFLECT(left);
-        WKHTMLTOPDF_REFLECT(top);
-        WKHTMLTOPDF_REFLECT(width);
-        WKHTMLTOPDF_REFLECT(height);
+        WKHTMLTOPDF_REFLECT(rect);
         WKHTMLTOPDF_REFLECT(color);
         WKHTMLTOPDF_REFLECT(font_size);
         WKHTMLTOPDF_REFLECT(font_family);
@@ -416,15 +413,39 @@ QString colorModeToStr(QPrinter::ColorMode o)
     return QString();
 }
 
-QRect strToQRect(const char* s, bool* ok)
+DLL_PUBLIC MarkRect strToRect(const char *s, bool *ok /*= 0*/)
 {
-    // TODO 定义转换方法，长宽以百分比为参数
-    return QRect();
+    // (left,top,width,height)
+    MarkRect ret{};
+
+    QString tmp = QString::fromUtf8(s);
+    tmp.remove(QRegExp("\\s"));
+    if (tmp.isEmpty() ||
+        (tmp[0] != '(') ||
+        (tmp[tmp.size() - 1] != ')')) {
+        return ret;
+    }
+    tmp = tmp.mid(1, tmp.size() - 2);
+    auto li = tmp.split(',');
+    if (li.size() != 4) {
+        return ret;
+    }
+
+    ret.left = li[0].toFloat();
+    ret.top = li[1].toFloat();
+
+    ret.width = li[2].toFloat();
+    ret.height = li[3].toFloat();
+
+    return ret;
 }
 
-QString QRectToStr(QRect o)
+DLL_PUBLIC QString rectToStr(MarkRect o)
 {
-    return QString();
+    char buff[64];
+    snprintf(buff, sizeof(buff), "(%d,%d,%d,%d)",
+        o.left, o.top, o.width, o.height);
+    return QString::fromUtf8(buff);
 }
 
 QColor strToQColor(const char* s, bool* ok)
@@ -457,7 +478,7 @@ QString QColorToStr(QColor o)
     char buff[64];
     snprintf(buff, sizeof(buff), "(%d,%d,%d,%d)",
         o.red(), o.green(), o.blue(), o.alpha());
-    return QString(buff);
+    return QString::fromUtf8(buff);
 }
 
 Size::Size() :
@@ -487,10 +508,10 @@ Margin::Margin() :
 {
 }
 
-CustomWaterMark::CustomWaterMark() :
+CustomWaterMarkText::CustomWaterMarkText() :
     use(false),
     rotate(0.0),
-    left(0.0), top(0.0), width(0.0), height(0.0),
+    rect{ 0,0,0,0 },
     color(0, 0, 0, 255),
     font_size(24),
     font_family("Microsoft YaHei")

@@ -82,9 +82,14 @@ struct DLL_PUBLIC TableOfContent
     float fontScale;
 };
 
-struct DLL_PUBLIC CustomWaterMark
+struct DLL_PUBLIC MarkRect
 {
-    CustomWaterMark();
+    float left, top, width, height;
+};
+
+struct DLL_PUBLIC CustomWaterMarkText
+{
+    CustomWaterMarkText();
 
     // 启用水印
     bool use;
@@ -93,7 +98,7 @@ struct DLL_PUBLIC CustomWaterMark
     float rotate;
 
     // 水印填充区域（百分比）
-    float left, top, width, height;
+    MarkRect rect;
 
     // 水印颜色
     QColor color;
@@ -106,6 +111,11 @@ struct DLL_PUBLIC CustomWaterMark
 
     // 水印内容
     QString text;
+};
+
+struct DLL_PUBLIC CustomWaterMarkImg
+{
+    CustomWaterMarkImg();
 };
 
 /*! \brief Class holding all user setting.
@@ -177,9 +187,9 @@ struct DLL_PUBLIC PdfGlobal
     LoadGlobal load;
 
     // 定制水印A
-    CustomWaterMark WaterMarkA;
+    CustomWaterMarkText WaterMarkA;
     // 定制水印B
-    CustomWaterMark WaterMarkB;
+    CustomWaterMarkText WaterMarkB;
 
     QString get(const char * name);
     bool set(const char * name, const QString & value);
@@ -264,8 +274,8 @@ DLL_PUBLIC QString printerModeToStr(QPrinter::PrinterMode o);
 DLL_PUBLIC QPrinter::ColorMode strToColorMode(const char * s, bool * ok = 0);
 DLL_PUBLIC QString colorModeToStr(QPrinter::ColorMode o);
 
-DLL_PUBLIC QRect strToQRect(const char *s, bool *ok = 0);
-DLL_PUBLIC QString QRectToStr(QRect o);
+DLL_PUBLIC MarkRect strToRect(const char *s, bool *ok = 0);
+DLL_PUBLIC QString rectToStr(MarkRect o);
 
 DLL_PUBLIC QColor strToQColor(const char *s, bool * ok = 0);
 DLL_PUBLIC QString QColorToStr(QColor o);
