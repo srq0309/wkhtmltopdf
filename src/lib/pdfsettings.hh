@@ -29,50 +29,81 @@
 #include <websettings.hh>
 
 #include <dllbegin.inc>
-namespace wkhtmltopdf {
-namespace settings {
+namespace wkhtmltopdf
+{
+namespace settings
+{
 
 typedef QPair<qreal, QPrinter::Unit> UnitReal;
 
 /*! \brief Settings considering margins */
-struct DLL_PUBLIC Margin {
-	Margin();
-	//!Margin applied to the top of the page
-	UnitReal top;
-	//!Margin applied to the right of the page
-	UnitReal right;
-	//!Margin applied to the bottom of the page
-	UnitReal bottom;
-	//!Margin applied to the leftp of the page
-	UnitReal left;
+struct DLL_PUBLIC Margin
+{
+    Margin();
+    //!Margin applied to the top of the page
+    UnitReal top;
+    //!Margin applied to the right of the page
+    UnitReal right;
+    //!Margin applied to the bottom of the page
+    UnitReal bottom;
+    //!Margin applied to the leftp of the page
+    UnitReal left;
 };
 
 /*! \brief Settings considering page size */
-struct DLL_PUBLIC Size {
-	Size();
-	//! What size paper should we use
-	QPrinter::PageSize pageSize;
-	//!Height of the page
-	UnitReal height;
-	//!Width of the page
-	UnitReal width;
+struct DLL_PUBLIC Size
+{
+    Size();
+    //! What size paper should we use
+    QPrinter::PageSize pageSize;
+    //!Height of the page
+    UnitReal height;
+    //!Width of the page
+    UnitReal width;
 };
 
 /*! \brief Settings considering the table of content */
-struct DLL_PUBLIC TableOfContent {
-	TableOfContent();
-	//! Should we print dots between the name and the page number?
-	bool useDottedLines;
-	//! Name af the TOC
-	QString captionText;
-	//! Link from TOC to section headers
-	bool forwardLinks;
-	//! Link from section headers to TOC
-	bool backLinks;
-	//! How fare should we indent on every level
-	QString indentation;
-	//! Factor we should scale the font with on every level
-	float fontScale;
+struct DLL_PUBLIC TableOfContent
+{
+    TableOfContent();
+    //! Should we print dots between the name and the page number?
+    bool useDottedLines;
+    //! Name af the TOC
+    QString captionText;
+    //! Link from TOC to section headers
+    bool forwardLinks;
+    //! Link from section headers to TOC
+    bool backLinks;
+    //! How fare should we indent on every level
+    QString indentation;
+    //! Factor we should scale the font with on every level
+    float fontScale;
+};
+
+struct DLL_PUBLIC CustomWaterMark
+{
+    CustomWaterMark();
+
+    // 启用水印
+    bool use;
+
+    // 坐标系变换
+    float rotate;
+
+    // 水印填充区域（百分比）
+    float left, top, width, height;
+
+    // 水印颜色
+    int color_r, color_g, color_b, color_a;
+
+    // 字号大小
+    int font_size;
+
+    // 字体
+    QString font_family;
+
+    // 水印内容
+    QString text;
 };
 
 /*! \brief Class holding all user setting.
@@ -80,147 +111,155 @@ struct DLL_PUBLIC TableOfContent {
     or with other methods.
     \sa CommandLineParser::parse()
 */
-struct DLL_PUBLIC PdfGlobal {
-	PdfGlobal();
+struct DLL_PUBLIC PdfGlobal
+{
+    PdfGlobal();
 
-	//! Size related settings
-	Size size;
+    //! Size related settings
+    Size size;
 
-	//! Log level
-	LogLevel logLevel;
+    //! Log level
+    LogLevel logLevel;
 
-	//! Should we use the graphics system
-	bool useGraphics;
+    //! Should we use the graphics system
+    bool useGraphics;
 
-	//! Should relative links be resolved or kept as-is
-	bool resolveRelativeLinks;
+    //! Should relative links be resolved or kept as-is
+    bool resolveRelativeLinks;
 
-	//! Should we orientate in landscape or portrate
-	QPrinter::Orientation orientation;
+    //! Should we orientate in landscape or portrate
+    QPrinter::Orientation orientation;
 
-	//! Color or grayscale
-	QPrinter::ColorMode colorMode;
+    //! Color or grayscale
+    QPrinter::ColorMode colorMode;
 
-	//! What overall resolution should we use
-	QPrinter::PrinterMode resolution;
+    //! What overall resolution should we use
+    QPrinter::PrinterMode resolution;
 
-	//! What dpi should be used when printing
-	int dpi;
+    //! What dpi should be used when printing
+    int dpi;
 
-	//! When pagenumbers are printed, apply this offset to them all
-	int pageOffset;
+    //! When pagenumbers are printed, apply this offset to them all
+    int pageOffset;
 
-	//! How many copies do we wan to print
-	int copies;
+    //! How many copies do we wan to print
+    int copies;
 
-	//! Should be print a whole copy before beginning the next
-	bool collate;
+    //! Should be print a whole copy before beginning the next
+    bool collate;
 
-	//! Should we generate an outline and put it into the pdf file
-	bool outline;
+    //! Should we generate an outline and put it into the pdf file
+    bool outline;
 
-	//! Maximal depth of the generated outline
-	int outlineDepth;
+    //! Maximal depth of the generated outline
+    int outlineDepth;
 
-	//! dump outline to this filename
-	QString dumpOutline;
+    //! dump outline to this filename
+    QString dumpOutline;
 
-	//! The file where in to store the output
-	QString out;
+    //! The file where in to store the output
+    QString out;
 
-	QString documentTitle;
+    QString documentTitle;
 
-	bool useCompression;
+    bool useCompression;
 
-	//! Margin related settings
-	Margin margin;
+    //! Margin related settings
+    Margin margin;
 
-	QString viewportSize;
+    QString viewportSize;
 
-	int imageDPI;
-	int imageQuality;
+    int imageDPI;
+    int imageQuality;
 
-	LoadGlobal load;
+    LoadGlobal load;
 
-	QString get(const char * name);
-	bool set(const char * name, const QString & value);
+    // 定制水印A
+    CustomWaterMark WaterMarkA;
+    // 定制水印B
+    CustomWaterMark WaterMarkB;
+
+    QString get(const char * name);
+    bool set(const char * name, const QString & value);
 };
 
 /*! \brief Settings considering headers and footers */
-struct DLL_PUBLIC HeaderFooter {
-	HeaderFooter();
-	//! Size of the font used to render the text
-	int fontSize;
-	//! Name of font used to render text
-	QString fontName;
-	//! Text to render at the left
-	QString left;
-	//! Text to render at the right
-	QString right;
-	//! Text to render at the center
-	QString center;
-	//! Should a line separate the header/footer and the document
-	bool line;
-	//! Url of the document the html document that should be used as a header/footer
-	QString htmlUrl;
-	//! Spacing
-	float spacing;
+struct DLL_PUBLIC HeaderFooter
+{
+    HeaderFooter();
+    //! Size of the font used to render the text
+    int fontSize;
+    //! Name of font used to render text
+    QString fontName;
+    //! Text to render at the left
+    QString left;
+    //! Text to render at the right
+    QString right;
+    //! Text to render at the center
+    QString center;
+    //! Should a line separate the header/footer and the document
+    bool line;
+    //! Url of the document the html document that should be used as a header/footer
+    QString htmlUrl;
+    //! Spacing
+    float spacing;
 };
 
-struct DLL_PUBLIC PdfObject {
-	PdfObject();
-	//! Settings regarding the TOC
-	TableOfContent toc;
+struct DLL_PUBLIC PdfObject
+{
+    PdfObject();
+    //! Settings regarding the TOC
+    TableOfContent toc;
 
-	QString page;
+    QString page;
 
-	//! Header related settings
-	HeaderFooter header;
+    //! Header related settings
+    HeaderFooter header;
 
-	//! Header related settings
-	HeaderFooter footer;
+    //! Header related settings
+    HeaderFooter footer;
 
-	//! Should external links be links in the PDF
-	bool useExternalLinks;
+    //! Should external links be links in the PDF
+    bool useExternalLinks;
 
-	//! Should internal links be links in the PDF
-	bool useLocalLinks;
+    //! Should internal links be links in the PDF
+    bool useLocalLinks;
 
-	//! Replacements
-	QList< QPair<QString, QString> > replacements;
+    //! Replacements
+    QList< QPair<QString, QString> > replacements;
 
-	//! Convert forms on the pages into PDF forms
-	bool produceForms;
+    //! Convert forms on the pages into PDF forms
+    bool produceForms;
 
-	LoadPage load;
+    LoadPage load;
 
-	Web web;
+    Web web;
 
-	bool includeInOutline;
+    bool includeInOutline;
 
-	bool pagesCount;
+    bool pagesCount;
 
-	bool isTableOfContent;
+    bool isTableOfContent;
 
-	QString tocXsl;
+    QString tocXsl;
 
-	QString get(const char * name);
-	bool set(const char * name, const QString & value);
+    QString get(const char * name);
+    bool set(const char * name, const QString & value);
 };
 
-DLL_PUBLIC QPrinter::PageSize strToPageSize(const char * s, bool * ok=0);
+DLL_PUBLIC QPrinter::PageSize strToPageSize(const char * s, bool * ok = 0);
 DLL_PUBLIC QString pageSizeToStr(QPrinter::PageSize ps);
 
-DLL_PUBLIC UnitReal strToUnitReal(const char * s, bool * ok=0);
+DLL_PUBLIC UnitReal strToUnitReal(const char * s, bool * ok = 0);
 DLL_PUBLIC QString unitRealToStr(const UnitReal & ur, bool * ok);
 
-DLL_PUBLIC QPrinter::Orientation strToOrientation(const char * s, bool * ok=0);
+DLL_PUBLIC QPrinter::Orientation strToOrientation(const char * s, bool * ok = 0);
 DLL_PUBLIC QString orientationToStr(QPrinter::Orientation o);
 
-DLL_PUBLIC QPrinter::PrinterMode strToPrinterMode(const char * s, bool * ok=0);
+DLL_PUBLIC QPrinter::PrinterMode strToPrinterMode(const char * s, bool * ok = 0);
 DLL_PUBLIC QString printerModeToStr(QPrinter::PrinterMode o);
 
-DLL_PUBLIC QPrinter::ColorMode strToColorMode(const char * s, bool * ok=0);
+DLL_PUBLIC QPrinter::ColorMode strToColorMode(const char * s, bool * ok = 0);
 DLL_PUBLIC QString colorModeToStr(QPrinter::ColorMode o);
 
 }

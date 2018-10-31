@@ -41,22 +41,24 @@
 #endif
 
 #include "dllbegin.inc"
-namespace wkhtmltopdf {
+namespace wkhtmltopdf
+{
 
-class DLL_LOCAL PageObject {
+class DLL_LOCAL PageObject
+{
 public:
-	static QMap<QWebPage *, PageObject *> webPageToObject;
+    static QMap<QWebPage *, PageObject *> webPageToObject;
 
-	settings::PdfObject settings;
-	LoaderObject * loaderObject;
-	QWebPage * page;
-	QString data;
-	int number;
+    settings::PdfObject settings;
+    LoaderObject * loaderObject;
+    QWebPage * page;
+    QString data;
+    int number;
 
 #ifdef __EXTENSIVE_WKHTMLTOPDF_QT_HACK__
-	QHash<QString, QWebElement> anchors;
-	QVector< QPair<QWebElement,QString> > localLinks;
-	QVector< QPair<QWebElement,QString> > externalLinks;
+    QHash<QString, QWebElement> anchors;
+    QVector< QPair<QWebElement, QString> > localLinks;
+    QVector< QPair<QWebElement, QString> > externalLinks;
     // height length to reserve for header when printing page
     double headerReserveHeight;
     // height length to reserve for footer when printing page
@@ -69,133 +71,155 @@ public:
     QWebPrinter *web_printer;
 #endif
 
-	int firstPageNumber;
-	QList<QWebPage *> headers;
-	QList<QWebPage *> footers;
-	int pageCount;
-	TempFile tocFile;
+    int firstPageNumber;
+    QList<QWebPage *> headers;
+    QList<QWebPage *> footers;
+    int pageCount;
+    TempFile tocFile;
 
-	void clear() {
+    void clear()
+    {
 #ifdef __EXTENSIVE_WKHTMLTOPDF_QT_HACK__
-		anchors.clear();
-		localLinks.clear();
-		externalLinks.clear();
-		if (web_printer != 0)
-			delete web_printer;
-		web_printer=0;
+        anchors.clear();
+        localLinks.clear();
+        externalLinks.clear();
+        if (web_printer != 0)
+            delete web_printer;
+        web_printer = 0;
 #endif
-		headers.clear();
-		footers.clear();
-		webPageToObject.remove(page);
- 		page=0;
-		tocFile.removeAll();
-	}
+        headers.clear();
+        footers.clear();
+        webPageToObject.remove(page);
+        page = 0;
+        tocFile.removeAll();
+    }
 
-	PageObject(const settings::PdfObject & set, const QString * d=NULL):
-		settings(set), loaderObject(0), page(0)
+    PageObject(const settings::PdfObject & set, const QString * d = NULL) :
+        settings(set), loaderObject(0), page(0)
 #ifdef __EXTENSIVE_WKHTMLTOPDF_QT_HACK__
-		, headerReserveHeight(0), footerReserveHeight(0), measuringHeader(0), measuringFooter(0), web_printer(0)
+        , headerReserveHeight(0), footerReserveHeight(0), measuringHeader(0), measuringFooter(0), web_printer(0)
 #endif
-	{
-		if (d) data=*d;
-	};
+    {
+        if (d) data = *d;
+    };
 
-	~PageObject() {
-		clear();
-	}
+    ~PageObject()
+    {
+        clear();
+    }
 
 };
 
-class DLL_LOCAL PdfConverterPrivate: public ConverterPrivate {
-	Q_OBJECT
+class DLL_LOCAL PdfConverterPrivate : public ConverterPrivate
+{
+    Q_OBJECT
 public:
-	PdfConverterPrivate(settings::PdfGlobal & s, PdfConverter & o);
-	~PdfConverterPrivate();
+    PdfConverterPrivate(settings::PdfGlobal & s, PdfConverter & o);
+    ~PdfConverterPrivate();
 
-	settings::PdfGlobal & settings;
+    settings::PdfGlobal & settings;
 
-	MultiPageLoader pageLoader;
+    MultiPageLoader pageLoader;
 
 private:
-	PdfConverter & out;
-	void clearResources();
-	TempFile tempOut;
-	QByteArray outputData;
+    PdfConverter & out;
+    void clearResources();
+    TempFile tempOut;
+    QByteArray outputData;
 
-	QList<PageObject> objects;
-	QSize viewportSize;
-	QPrinter * printer;
-	QPainter * painter;
-	QString lout;
-	QString title;
-	int currentObject;
-	int actualPages;
-	int pageCount;
-	int tocPages;
-	bool tocChanged;
-	int actualPage;
-	int pageNumber;
+    QList<PageObject> objects;
+    QSize viewportSize;
+    QPrinter * printer;
+    QPainter * painter;
+    QString lout;
+    QString title;
+    int currentObject;
+    int actualPages;
+    int pageCount;
+    int tocPages;
+    bool tocChanged;
+    int actualPage;
+    int pageNumber;
+
+    bool mark_is_ready;
+    QPen warterMarkPenA, warterMarkPenB;
+    QFont warterMarkFontA, warterMarkFontB;
+    QTransform warterMarkTransA, warterMarkTransB;
+
+    struct WarterMarkConfig
+    {
+        bool use;
+        QPen pen;
+        QFont font;
+        QTransform trans;
+        QRect rect;
+        QString text;
+    } waterMarkA, waterMarkB;
+
 #ifdef __EXTENSIVE_WKHTMLTOPDF_QT_HACK__
-	int objectPage;
+    int objectPage;
 
 
-	QHash<int, QHash<QString, QWebElement> > pageAnchors;
-	QHash<int, QVector< QPair<QWebElement,QString> > > pageLocalLinks;
-	QHash<int, QVector< QPair<QWebElement,QString> > > pageExternalLinks;
-	QHash<int, QVector<QWebElement> > pageFormElements;
-	bool pageHasHeaderFooter;
-	
+    QHash<int, QHash<QString, QWebElement> > pageAnchors;
+    QHash<int, QVector< QPair<QWebElement, QString> > > pageLocalLinks;
+    QHash<int, QVector< QPair<QWebElement, QString> > > pageExternalLinks;
+    QHash<int, QVector<QWebElement> > pageFormElements;
+    bool pageHasHeaderFooter;
+
     // loader for measuringHeader and measuringFooter
     MultiPageLoader measuringHFLoader;
 
-	MultiPageLoader hfLoader;
-	MultiPageLoader tocLoader1;
-	MultiPageLoader tocLoader2;
+    MultiPageLoader hfLoader;
+    MultiPageLoader tocLoader1;
+    MultiPageLoader tocLoader2;
 
-	MultiPageLoader * tocLoader;
-	MultiPageLoader * tocLoaderOld;
+    MultiPageLoader * tocLoader;
+    MultiPageLoader * tocLoaderOld;
 
-	QHash<QString, PageObject *> urlToPageObj;
+    QHash<QString, PageObject *> urlToPageObj;
 
-	Outline * outline;
-	void findLinks(QWebFrame * frame, QVector<QPair<QWebElement, QString> > & local, QVector<QPair<QWebElement, QString> > & external, QHash<QString, QWebElement> & anchors);
-	void endPage(PageObject & object, bool hasHeaderFooter, int objectPage,  int pageNumber);
-	void fillParms(QHash<QString, QString> & parms, int page, const PageObject & object);
-	QString hfreplace(const QString & q, const QHash<QString, QString> & parms);
-	QWebPage * loadHeaderFooter(QString url, const QHash<QString, QString> & parms, const settings::PdfObject & ps);
+    Outline * outline;
+    void findLinks(QWebFrame * frame, QVector<QPair<QWebElement, QString> > & local, QVector<QPair<QWebElement, QString> > & external, QHash<QString, QWebElement> & anchors);
+    void watermark(PdfConverterPrivate::WarterMarkConfig& mark);
+    void _watermark_pre(PdfConverterPrivate::WarterMarkConfig& mark, settings::CustomWaterMark& set);
+    void watermark_pre();
+    void endPage(PageObject & object, bool hasHeaderFooter, int objectPage, int pageNumber);
+    void fillParms(QHash<QString, QString> & parms, int page, const PageObject & object);
+    QString hfreplace(const QString & q, const QHash<QString, QString> & parms);
+    QWebPage * loadHeaderFooter(QString url, const QHash<QString, QString> & parms, const settings::PdfObject & ps);
     qreal calculateHeaderHeight(PageObject & object, QWebPage & header);
 
 #endif
-	QWebPage * currentHeader;
-	QWebPage * currentFooter;
+    QWebPage * currentHeader;
+    QWebPage * currentFooter;
     QPrinter * createPrinter(const QString & tempFile);
 
 #ifdef __EXTENSIVE_WKHTMLTOPDF_QT_HACK__
-	void handleTocPage(PageObject & obj);
-	void preprocessPage(PageObject & obj);
-	void spoolPage(int page);
-	void spoolTo(int page);
-	void handleHeader(QWebPage * frame, int page);
-	void handleFooter(QWebPage * frame, int page);
-	void beginPrintObject(PageObject & obj);
-	void endPrintObject(PageObject & obj);
+    void handleTocPage(PageObject & obj);
+    void preprocessPage(PageObject & obj);
+    void spoolPage(int page);
+    void spoolTo(int page);
+    void handleHeader(QWebPage * frame, int page);
+    void handleFooter(QWebPage * frame, int page);
+    void beginPrintObject(PageObject & obj);
+    void endPrintObject(PageObject & obj);
 #endif
 
-	void loadTocs();
-	void loadHeaders();
-public slots:
+    void loadTocs();
+    void loadHeaders();
+    public slots:
     void measuringHeadersLoaded(bool ok);
     void pagesLoaded(bool ok);
-	void tocLoaded(bool ok);
-	void headersLoaded(bool ok);
+    void tocLoaded(bool ok);
+    void headersLoaded(bool ok);
 
-	void printDocument();
+    void printDocument();
 
-	void beginConvert();
+    void beginConvert();
 
-	friend class PdfConverter;
+    friend class PdfConverter;
 
-	virtual Converter & outer();
+    virtual Converter & outer();
 };
 
 }
