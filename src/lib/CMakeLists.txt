@@ -18,6 +18,7 @@ add_definitions(${QT_DEFINITIONS})
 
 add_definitions(-DBUILDING_WKHTMLTOX)
 add_definitions(-DBUILDING_DLL)
+add_definitions(-DCRT_SECURE_NO_WARNINGS)
 
 file(GLOB WKX_SRC
     *.hh

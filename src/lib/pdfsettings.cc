@@ -150,6 +150,17 @@ struct DLL_LOCAL ReflectImpl<CustomWaterMarkText> : public ReflectClass
 };
 
 template<>
+struct DLL_LOCAL ReflectImpl<CustomWaterMarkImg> : public ReflectClass
+{
+    ReflectImpl(CustomWaterMarkImg & c)
+    {
+        WKHTMLTOPDF_REFLECT(use);
+        WKHTMLTOPDF_REFLECT(rotate);
+        WKHTMLTOPDF_REFLECT(rect);
+        WKHTMLTOPDF_REFLECT(img);
+    }
+};
+template<>
 struct DLL_LOCAL ReflectImpl<PdfGlobal> : public ReflectClass
 {
     ReflectImpl(PdfGlobal & c)
@@ -179,6 +190,7 @@ struct DLL_LOCAL ReflectImpl<PdfGlobal> : public ReflectClass
         WKHTMLTOPDF_REFLECT(viewportSize);
         WKHTMLTOPDF_REFLECT(WaterMarkA);
         WKHTMLTOPDF_REFLECT(WaterMarkB);
+        WKHTMLTOPDF_REFLECT(WaterMarkImg);
     }
 };
 
@@ -443,7 +455,7 @@ DLL_PUBLIC MarkRect strToRect(const char *s, bool *ok /*= 0*/)
 DLL_PUBLIC QString rectToStr(MarkRect o)
 {
     char buff[64];
-    snprintf(buff, sizeof(buff), "(%d,%d,%d,%d)",
+    snprintf(buff, sizeof(buff), "(%f,%f,%f,%f)",
         o.left, o.top, o.width, o.height);
     return QString::fromUtf8(buff);
 }
@@ -515,6 +527,13 @@ CustomWaterMarkText::CustomWaterMarkText() :
     color(0, 0, 0, 255),
     font_size(24),
     font_family("Microsoft YaHei")
+{
+}
+
+CustomWaterMarkImg::CustomWaterMarkImg() :
+    use(false),
+    rotate(0.0),
+    rect{ 0,0,0,0 }
 {
 }
 

@@ -116,6 +116,18 @@ struct DLL_PUBLIC CustomWaterMarkText
 struct DLL_PUBLIC CustomWaterMarkImg
 {
     CustomWaterMarkImg();
+
+    // 启用水印
+    bool use;
+
+    // 坐标系变换
+    float rotate;
+
+    // 水印填充区域（百分比）
+    MarkRect rect;
+
+    // 水印图像路径
+    QString img;
 };
 
 /*! \brief Class holding all user setting.
@@ -190,6 +202,8 @@ struct DLL_PUBLIC PdfGlobal
     CustomWaterMarkText WaterMarkA;
     // 定制水印B
     CustomWaterMarkText WaterMarkB;
+    // 定制图片水印
+    CustomWaterMarkImg WaterMarkImg;
 
     QString get(const char * name);
     bool set(const char * name, const QString & value);

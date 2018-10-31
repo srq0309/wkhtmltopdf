@@ -615,6 +615,16 @@ void PdfConverterPrivate::watermark(PdfConverterPrivate::WarterMarkConfig& mark)
     }
 }
 
+void wkhtmltopdf::PdfConverterPrivate::watermark(PdfConverterPrivate::WaterMarkImgConfig & mark)
+{
+    if (mark.use) {
+        painter->save();
+        painter->setTransform(mark.trans);
+        painter->drawImage(mark.rect, mark.img);
+        painter->restore();
+    }
+}
+
 void PdfConverterPrivate::_watermark_pre(PdfConverterPrivate::WarterMarkConfig& mark, CustomWaterMarkText& markSet)
 {
     if (markSet.use) {
@@ -650,6 +660,22 @@ void PdfConverterPrivate::watermark_pre()
 {
     _watermark_pre(waterMarkA, settings.WaterMarkA);
     _watermark_pre(waterMarkB, settings.WaterMarkB);
+
+    const auto& markSet = settings.WaterMarkImg;
+    waterMarkImg.use = markSet.use;
+    if (waterMarkImg.use) {
+        waterMarkImg.trans.rotate(markSet.rotate);
+
+        waterMarkImg.rect.setLeft(markSet.rect.left * printer->width());
+        waterMarkImg.rect.setTop(markSet.rect.top * printer->height());
+        waterMarkImg.rect.setWidth(markSet.rect.width * printer->width());
+        waterMarkImg.rect.setHeight(markSet.rect.height * printer->height());
+
+        if (!waterMarkImg.img.load(markSet.img)) {
+            emit out.warning("Could not load image watermark");
+            waterMarkImg.use = false;
+        }
+    }
 
     mark_is_ready = true;
 }
@@ -953,6 +979,7 @@ void PdfConverterPrivate::spoolPage(int page)
     }
     watermark(waterMarkA);
     watermark(waterMarkB);
+    watermark(waterMarkImg);
 
     actualPage++;
 }
@@ -1150,7 +1177,7 @@ void PdfConverterPrivate::printDocument()
     emit out.finished(true);
 
     qApp->exit(0); // quit qt's event handling
-    }
+}
 
 #ifdef __EXTENSIVE_WKHTMLTOPDF_QT_HACK__
 QWebPage * PdfConverterPrivate::loadHeaderFooter(QString url, const QHash<QString, QString> & parms, const settings::PdfObject & ps)

@@ -156,6 +156,14 @@ private:
         QString text;
     } waterMarkA, waterMarkB;
 
+    struct WaterMarkImgConfig
+    {
+        bool use;
+        QTransform trans;
+        QRect rect;
+        QImage img;
+    } waterMarkImg;
+
 #ifdef __EXTENSIVE_WKHTMLTOPDF_QT_HACK__
     int objectPage;
 
@@ -181,6 +189,8 @@ private:
     Outline * outline;
     void findLinks(QWebFrame * frame, QVector<QPair<QWebElement, QString> > & local, QVector<QPair<QWebElement, QString> > & external, QHash<QString, QWebElement> & anchors);
     void watermark(PdfConverterPrivate::WarterMarkConfig& mark);
+    void watermark(PdfConverterPrivate::WaterMarkImgConfig& mark);
+
     void _watermark_pre(PdfConverterPrivate::WarterMarkConfig& mark, settings::CustomWaterMarkText& set);
     void watermark_pre();
     void endPage(PageObject & object, bool hasHeaderFooter, int objectPage, int pageNumber);

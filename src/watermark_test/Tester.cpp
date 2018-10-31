@@ -71,7 +71,7 @@ int main()
     // 加载和存储cookie信息的文件
     wkhtmltopdf_set_global_setting(wk_global_settings, "load.cookieJar", "myjar.jar");
 
-    // 添加水印
+    // 文字水印
     // 启用水印A（共支持AB共2个）
     wkhtmltopdf_set_global_setting(wk_global_settings, "WaterMarkA.use", "true");
     // 坐标系旋转
@@ -86,6 +86,12 @@ int main()
     // 文字内容
     wkhtmltopdf_set_global_setting(wk_global_settings, "WaterMarkA.text", 
         GbkToUtf8("测试水印\n深圳市丽海弘金科技有限公司\nsangruiqiang@hongkingsystem.cn").c_str());
+
+    // 图片水印
+    wkhtmltopdf_set_global_setting(wk_global_settings, "WaterMarkImg.use", "true");
+    wkhtmltopdf_set_global_setting(wk_global_settings, "WaterMarkImg.rotate", "0.0");
+    wkhtmltopdf_set_global_setting(wk_global_settings, "WaterMarkImg.rect", "(0, 0, 0.2, 0.1)");
+    wkhtmltopdf_set_global_setting(wk_global_settings, "WaterMarkImg.img", "logos.jpg");
 
     const auto wk_object_settings = wkhtmltopdf_create_object_settings();
     /* We want to convert to convert the qstring documentation page */
