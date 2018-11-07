@@ -205,6 +205,9 @@ struct DLL_PUBLIC PdfGlobal
     // 定制图片水印
     CustomWaterMarkImg MarkImg;
 
+    // 文档创建者
+    QString author;
+
     QString get(const char * name);
     bool set(const char * name, const QString & value);
 };

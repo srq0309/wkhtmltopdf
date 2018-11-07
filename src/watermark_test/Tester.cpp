@@ -70,6 +70,8 @@ int main()
     wkhtmltopdf_set_global_setting(wk_global_settings, "out", "test.pdf");
     // 加载和存储cookie信息的文件
     wkhtmltopdf_set_global_setting(wk_global_settings, "load.cookieJar", "myjar.jar");
+    // 设置作者
+    wkhtmltopdf_set_global_setting(wk_global_settings, "author", "sangrq");
 
     // 文字水印
     // 启用水印A（共支持AB共2个）

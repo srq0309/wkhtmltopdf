@@ -191,6 +191,7 @@ struct DLL_LOCAL ReflectImpl<PdfGlobal> : public ReflectClass
         WKHTMLTOPDF_REFLECT(MarkTextA);
         WKHTMLTOPDF_REFLECT(MarkTextB);
         WKHTMLTOPDF_REFLECT(MarkImg);
+        WKHTMLTOPDF_REFLECT(author);
     }
 };
 

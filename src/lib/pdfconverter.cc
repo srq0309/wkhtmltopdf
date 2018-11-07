@@ -286,7 +286,7 @@ QPrinter * PdfConverterPrivate::createPrinter(const QString & tempFile)
 
     printer->setOrientation(settings.orientation);
     printer->setColorMode(settings.colorMode);
-    printer->setCreator("wkhtmltopdf " STRINGIZE(FULL_VERSION));
+    printer->setCreator(settings.author);
 
     return printer;
 }
@@ -394,7 +394,7 @@ void PdfConverterPrivate::pagesLoaded(bool ok)
 
     printer->setOrientation(settings.orientation);
     printer->setColorMode(settings.colorMode);
-    printer->setCreator("wkhtmltopdf " STRINGIZE(FULL_VERSION));
+    printer->setCreator(settings.author);
 
     if (!printer->isValid()) {
         emit out.error("Unable to write to destination");
