@@ -1,4 +1,4 @@
-// -*- mode: c++; tab-width: 4; indent-tabs-mode: t; eval: (progn (c-set-style "stroustrup") (c-set-offset 'innamespace 0)); -*-
+﻿// -*- mode: c++; tab-width: 4; indent-tabs-mode: t; eval: (progn (c-set-style "stroustrup") (c-set-offset 'innamespace 0)); -*-
 // vi:set ts=4 sts=4 sw=4 noet :
 //
 // Copyright 2010 wkhtmltopdf authors
@@ -188,9 +188,9 @@ struct DLL_LOCAL ReflectImpl<PdfGlobal> : public ReflectClass
         WKHTMLTOPDF_REFLECT(imageQuality);
         WKHTMLTOPDF_REFLECT(load);
         WKHTMLTOPDF_REFLECT(viewportSize);
-        WKHTMLTOPDF_REFLECT(WaterMarkA);
-        WKHTMLTOPDF_REFLECT(WaterMarkB);
-        WKHTMLTOPDF_REFLECT(WaterMarkImg);
+        WKHTMLTOPDF_REFLECT(MarkTextA);
+        WKHTMLTOPDF_REFLECT(MarkTextB);
+        WKHTMLTOPDF_REFLECT(MarkImg);
     }
 };
 

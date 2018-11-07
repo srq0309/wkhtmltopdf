@@ -1,4 +1,4 @@
-// -*- mode: c++; tab-width: 4; indent-tabs-mode: t; eval: (progn (c-set-style "stroustrup") (c-set-offset 'innamespace 0)); -*-
+ï»¿// -*- mode: c++; tab-width: 4; indent-tabs-mode: t; eval: (progn (c-set-style "stroustrup") (c-set-offset 'innamespace 0)); -*-
 // vi:set ts=4 sts=4 sw=4 noet :
 //
 // Copyright 2010 wkhtmltopdf authors
@@ -91,25 +91,25 @@ struct DLL_PUBLIC CustomWaterMarkText
 {
     CustomWaterMarkText();
 
-    // ÆôÓÃË®Ó¡
+    // å¯ç”¨æ°´å°
     bool use;
 
-    // ×ø±êÏµ±ä»»
+    // åæ ‡ç³»å˜æ¢
     float rotate;
 
-    // Ë®Ó¡Ìî³äÇøÓò£¨°Ù·Ö±È£©
+    // æ°´å°å¡«å……åŒºåŸŸï¼ˆç™¾åˆ†æ¯”ï¼‰
     MarkRect rect;
 
-    // Ë®Ó¡ÑÕÉ«
+    // æ°´å°é¢œè‰²
     QColor color;
 
-    // ×ÖºÅ´óĞ¡
+    // å­—å·å¤§å°
     int font_size;
 
-    // ×ÖÌå
+    // å­—ä½“
     QString font_family;
 
-    // Ë®Ó¡ÄÚÈİ
+    // æ°´å°å†…å®¹
     QString text;
 };
 
@@ -117,16 +117,16 @@ struct DLL_PUBLIC CustomWaterMarkImg
 {
     CustomWaterMarkImg();
 
-    // ÆôÓÃË®Ó¡
+    // å¯ç”¨æ°´å°
     bool use;
 
-    // ×ø±êÏµ±ä»»
+    // åæ ‡ç³»å˜æ¢
     float rotate;
 
-    // Ë®Ó¡Ìî³äÇøÓò£¨°Ù·Ö±È£©
+    // æ°´å°å¡«å……åŒºåŸŸï¼ˆç™¾åˆ†æ¯”ï¼‰
     MarkRect rect;
 
-    // Ë®Ó¡Í¼ÏñÂ·¾¶
+    // æ°´å°å›¾åƒè·¯å¾„
     QString img;
 };
 
@@ -198,12 +198,12 @@ struct DLL_PUBLIC PdfGlobal
 
     LoadGlobal load;
 
-    // ¶¨ÖÆË®Ó¡A
-    CustomWaterMarkText WaterMarkA;
-    // ¶¨ÖÆË®Ó¡B
-    CustomWaterMarkText WaterMarkB;
-    // ¶¨ÖÆÍ¼Æ¬Ë®Ó¡
-    CustomWaterMarkImg WaterMarkImg;
+    // å®šåˆ¶æ°´å°A
+    CustomWaterMarkText MarkTextA;
+    // å®šåˆ¶æ°´å°B
+    CustomWaterMarkText MarkTextB;
+    // å®šåˆ¶å›¾ç‰‡æ°´å°
+    CustomWaterMarkImg MarkImg;
 
     QString get(const char * name);
     bool set(const char * name, const QString & value);

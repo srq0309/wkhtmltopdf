@@ -73,25 +73,25 @@ int main()
 
     // 文字水印
     // 启用水印A（共支持AB共2个）
-    wkhtmltopdf_set_global_setting(wk_global_settings, "WaterMarkA.use", "true");
+    wkhtmltopdf_set_global_setting(wk_global_settings, "MarkTextA.use", "true");
     // 坐标系旋转
-    wkhtmltopdf_set_global_setting(wk_global_settings, "WaterMarkA.rotate", "-45");
+    wkhtmltopdf_set_global_setting(wk_global_settings, "MarkTextA.rotate", "-45");
     // 文字区域
-    wkhtmltopdf_set_global_setting(wk_global_settings, "WaterMarkA.rect", "(-0.9, 0.0, 1.5, 1.0)");
+    wkhtmltopdf_set_global_setting(wk_global_settings, "MarkTextA.rect", "(-0.9, 0.0, 1.5, 1.0)");
     // 水印颜色
-    wkhtmltopdf_set_global_setting(wk_global_settings, "WaterMarkA.color", "(0, 160, 230, 80)");
+    wkhtmltopdf_set_global_setting(wk_global_settings, "MarkTextA.color", "(0, 160, 230, 80)");
     // 字体
-    wkhtmltopdf_set_global_setting(wk_global_settings, "WaterMarkA.font_family", "Microsoft YaHei");
-    wkhtmltopdf_set_global_setting(wk_global_settings, "WaterMarkA.font_size", "36");
+    wkhtmltopdf_set_global_setting(wk_global_settings, "MarkTextA.font_family", "Microsoft YaHei");
+    wkhtmltopdf_set_global_setting(wk_global_settings, "MarkTextA.font_size", "36");
     // 文字内容
-    wkhtmltopdf_set_global_setting(wk_global_settings, "WaterMarkA.text", 
+    wkhtmltopdf_set_global_setting(wk_global_settings, "MarkTextA.text", 
         GbkToUtf8("测试水印\n深圳市丽海弘金科技有限公司\nsangruiqiang@hongkingsystem.cn").c_str());
 
     // 图片水印
-    wkhtmltopdf_set_global_setting(wk_global_settings, "WaterMarkImg.use", "true");
-    wkhtmltopdf_set_global_setting(wk_global_settings, "WaterMarkImg.rotate", "0.0");
-    wkhtmltopdf_set_global_setting(wk_global_settings, "WaterMarkImg.rect", "(0, 0, 0.2, 0.1)");
-    wkhtmltopdf_set_global_setting(wk_global_settings, "WaterMarkImg.img", "logos.jpg");
+    wkhtmltopdf_set_global_setting(wk_global_settings, "MarkImg.use", "true");
+    wkhtmltopdf_set_global_setting(wk_global_settings, "MarkImg.rotate", "0.0");
+    wkhtmltopdf_set_global_setting(wk_global_settings, "MarkImg.rect", "(0, 0, 0.2, 0.1)");
+    wkhtmltopdf_set_global_setting(wk_global_settings, "MarkImg.img", "logos.jpg");
 
     const auto wk_object_settings = wkhtmltopdf_create_object_settings();
     /* We want to convert to convert the qstring documentation page */

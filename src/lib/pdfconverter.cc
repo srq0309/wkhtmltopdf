@@ -1,4 +1,4 @@
-// -*- mode: c++; tab-width: 4; indent-tabs-mode: t; eval: (progn (c-set-style "stroustrup") (c-set-offset 'innamespace 0)); -*-
+ï»¿// -*- mode: c++; tab-width: 4; indent-tabs-mode: t; eval: (progn (c-set-style "stroustrup") (c-set-offset 'innamespace 0)); -*-
 // vi:set ts=4 sts=4 sw=4 noet :
 //
 // Copyright 2010, 2011 wkhtmltopdf authors
@@ -600,8 +600,8 @@ void PdfConverterPrivate::findLinks(QWebFrame * frame, QVector<QPair<QWebElement
 
 
 /*!
- * @brief   Ìí¼ÓË®Ó¡
- * @param	mark Ë®Ó¡ÅäÖÃ
+ * @brief   æ·»åŠ æ°´å°
+ * @param	mark æ°´å°é…ç½®
  */
 void PdfConverterPrivate::watermark(PdfConverterPrivate::WarterMarkConfig& mark)
 {
@@ -658,10 +658,10 @@ void PdfConverterPrivate::_watermark_pre(PdfConverterPrivate::WarterMarkConfig& 
 
 void PdfConverterPrivate::watermark_pre()
 {
-    _watermark_pre(waterMarkA, settings.WaterMarkA);
-    _watermark_pre(waterMarkB, settings.WaterMarkB);
+    _watermark_pre(waterMarkA, settings.MarkTextA);
+    _watermark_pre(waterMarkB, settings.MarkTextB);
 
-    const auto& markSet = settings.WaterMarkImg;
+    const auto& markSet = settings.MarkImg;
     waterMarkImg.use = markSet.use;
     if (waterMarkImg.use) {
         waterMarkImg.trans.rotate(markSet.rotate);
