@@ -6,9 +6,8 @@
 #include <string>
 
 #define BUILDING_WKHTMLTOX
+#define STATIC_IMPORT
 #include "../lib/pdf.h"
-
-#pragma comment(lib, "wkhtmltox.lib")
 
 
 /* Print out loading progress information */

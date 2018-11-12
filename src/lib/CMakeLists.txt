@@ -29,7 +29,7 @@ file(GLOB WKX_SRC
 
 
 
-add_library(wkhtmltox SHARED ${WKX_SRC})
+add_library(wkhtmltox ${WKX_SRC})
 target_link_libraries(wkhtmltox
     Qt4::QtCore
     Qt4::QtGui
