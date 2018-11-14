@@ -1,4 +1,4 @@
-/* -*- mode: c++; tab-width: 4; indent-tabs-mode: t; eval: (progn (c-set-style "stroustrup") (c-set-offset 'innamespace 0)); -*-
+﻿/* -*- mode: c++; tab-width: 4; indent-tabs-mode: t; eval: (progn (c-set-style "stroustrup") (c-set-offset 'innamespace 0)); -*-
  * vi:set ts=4 sts=4 sw=4 noet :
  *
  * Copyright 2010 wkhtmltopdf authors
@@ -26,7 +26,11 @@
   #ifdef BUILDING_DLL
      #define DLL_PUBLIC __declspec(dllexport)
   #else
+  #ifdef STATIC_IMPORT
+     #define DLL_PUBLIC
+  #else
      #define DLL_PUBLIC __declspec(dllimport)
+  #endif
   #endif
   #define DLL_LOCAL
 #else
