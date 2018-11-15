@@ -803,7 +803,7 @@ def build_msvc(config, basedir):
         '-L %s\\lib' % libdir,
         'OPENSSL_LIBS="-L%s\\\\lib -lssleay32 -llibeay32 -lUser32 -lAdvapi32 -lGdi32 -lCrypt32"' % libdir.replace('\\', '\\\\'))
 
-    build_qt(qtdir, 'nmake', '%s\\..\\qt\\configure.exe %s' % (basedir, configure_args))
+    build_qt(qtdir, 'nmake', '%s\\qt\\configure.exe %s' % (os.path.realpath(os.path.curdir), configure_args))
 
     appdir = os.path.join(basedir, config, 'app')
     mkdir_p(appdir)
@@ -1089,7 +1089,7 @@ def usage(exit_code=2):
 
 def main():
     rootdir = os.path.realpath(os.path.join(os.path.dirname(os.path.realpath(__file__)), '..'))
-    basedir = os.path.join(rootdir, 'static-build')
+    basedir = os.path.join(rootdir, '../../_wkqt')
 
     if not exists(os.path.join(rootdir, 'qt', 'configure')):
         error('error: source code for Qt not available, cannot proceed.')
