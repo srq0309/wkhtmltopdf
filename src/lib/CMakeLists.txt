@@ -3,12 +3,12 @@ cmake_minimum_required(VERSION 3.8.0)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-set(DEPLIBS_ROOT ${PROJECT_SOURCE_DIR}/../_wkqt/msvc2015-win32/deplibs)
+set(DEPLIBS_ROOT ${PROJECT_SOURCE_DIR}/../_wkqt/${BUILD_NAME}/deplibs)
 set(ZLIB_LIBRARY ${DEPLIBS_ROOT})
 set(PNG_LIBRARY ${DEPLIBS_ROOT})
 set(JPEG_LIBRARY ${DEPLIBS_ROOT})
 
-set(QT_QMAKE_EXECUTABLE ${PROJECT_SOURCE_DIR}/../_wkqt/msvc2015-win32/qt/bin/qmake.exe)
+set(QT_QMAKE_EXECUTABLE ${PROJECT_SOURCE_DIR}/../_wkqt/${BUILD_NAME}/qt/bin/qmake.exe)
 
 
 find_package(Qt4 REQUIRED QtCore QtGui QtWebkit QtNetwork QtXmlpatterns QtSvg)
