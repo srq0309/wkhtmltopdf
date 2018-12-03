@@ -455,16 +455,16 @@ def get_registry_value(key, value=None):
     return None
 
 def get_version(basedir):
-    mkdir_p(basedir)
-    text = open(os.path.join(basedir, '..', 'VERSION'), 'r').read().strip()
-    if '-' not in text:
-        return (text, text)
-    version = text[:text.index('-')]
-    os.chdir(os.path.join(basedir, '..'))
-    hash = get_output('git', 'rev-parse', '--short', 'HEAD')
-    if not hash:
-        return (text, version)
-    return ('%s-%s' % (text, hash), version)
+    # mkdir_p(basedir)
+    # text = open(os.path.join(os.path.realpath(os.path.curdir), '..', 'VERSION'), 'r').read().strip()
+    # if '-' not in text:
+    #     return (text, text)
+    # version = text[:text.index('-')]
+    # os.chdir(os.path.join(basedir, '..'))
+    # hash = get_output('git', 'rev-parse', '--short', 'HEAD')
+    # if not hash:
+    #     return (text, version)
+    return ('0.12.6-dev', '0.12.6')
 
 def nsis_version(ver):
     while ver.count('.') < 3:
@@ -787,7 +787,7 @@ def build_msvc(config, basedir):
 
     os.environ.update(eval(stdout.strip()))
 
-    version, simple_version = get_version(basedir)
+    # version, simple_version = get_version(basedir)
     cflags  = config.endswith('-dbg') and '/MDd /Zi' or '/MD'
     build_deplibs(config, basedir, cflags=cflags)
 
@@ -803,7 +803,7 @@ def build_msvc(config, basedir):
         '-L %s\\lib' % libdir,
         'OPENSSL_LIBS="-L%s\\\\lib -lssleay32 -llibeay32 -lUser32 -lAdvapi32 -lGdi32 -lCrypt32"' % libdir.replace('\\', '\\\\'))
 
-    build_qt(qtdir, 'nmake', '%s\\qt\\configure.exe %s' % (os.path.realpath(os.path.curdir), configure_args))
+    build_qt(qtdir, 'nmake', '%s/../qt\\configure.exe %s' % (os.path.realpath(os.path.curdir), configure_args))
 
     appdir = os.path.join(basedir, config, 'app')
     mkdir_p(appdir)
@@ -905,7 +905,7 @@ def chroot_build_linux_generic(config, basedir):
         '-I%s/include'  % libdir,
         '-L%s/lib'      % libdir,
         '-DOPENSSL_NO_SSL2')
-    build_qt(qtdir, 'make -j%d' % CPU_COUNT, '%s/../qt/configure %s' % (basedir, configure_args))
+    build_qt(qtdir, 'make -j%d' % CPU_COUNT, '%s\\qt\\configure %s' % (os.path.realpath(os.path.curdir), configure_args))
 
     app    = os.path.join(basedir, config, 'app')
     dist   = os.path.join(basedir, config, 'wkhtmltox')
@@ -1089,7 +1089,7 @@ def usage(exit_code=2):
 
 def main():
     rootdir = os.path.realpath(os.path.join(os.path.dirname(os.path.realpath(__file__)), '..'))
-    basedir = os.path.join(rootdir, '../../_wkqt')
+    basedir = os.path.join(rootdir, '../_wkqt')
 
     if not exists(os.path.join(rootdir, 'qt', 'configure')):
         error('error: source code for Qt not available, cannot proceed.')
